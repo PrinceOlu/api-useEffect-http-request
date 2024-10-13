@@ -1,47 +1,46 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from 'axios'
+import React,{useEffect} from 'react'
+import { useState } from 'react'
 
-const URL = "https://jsonplaceholder.typicode.com/posts";
+
+const URl = "https://jsonplaceholder.typicode.com/albums"
 function Posts() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setIsloading] = useState(true);
-  const [error, setError] = useState();
-  // use useEffect to get the API
-  useEffect(() => {
-    // make HTTP request
-    axios
-      .get(URL)
-      .then((post) => {
-        // set loading state here
-        setIsloading(false);
-        // update the post state
-        setPosts(post.data);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsloading(false);
-      });
-  }, [error, loading]);
-  // display loading
-  if (loading) return <div>Loading...</div>;
-  // display error
-  if (error) return <div>{error.message}</div>;
+  // useState
+  const [posts,setPosts] = useState([]);
+  // useEffect
+  useEffect(()=>{
+      axios
+      .get(URl)
+      .then((post)=>{
+     console.log(post);
+    setPosts(post.data)
+  }).catch((error)=>{
+    console.log(error);
+    
+  })
+  },[])
   return (
     <div>
-      <h2>Network Request (REST-FULL API)</h2>
-      <div>
-        {posts.map((post) => {
+      <h1>Albums Lists</h1>
+      
+      {
+       posts.map((post)=>{
           return (
             <div key={post.id}>
-              <h2>ID: {post.id}</h2>
-              <h2>Title: {post.title}</h2>
-              <p>Details: {post.body}</p>
+                 <h2>UserId: {post.userId}</h2>
+                 <h2>id: {post.id}</h2>
+                 <h2>title: {post.title}</h2>
+
             </div>
+           
           );
-        })}
-      </div>
+       })
+        
+      }
+    
+    
     </div>
-  );
+  )
 }
 
-export default Posts;
+export default Posts
